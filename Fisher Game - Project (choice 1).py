@@ -24,10 +24,9 @@ for k, v in fishing_inventory.items():
 
     def fishing_action():
         fishing = input("What would you like to do? [f]ish,[v]iew stats, or [e]xit?")
-        print("You chose %s." % fishing)
         if fishing == 'f':
             print("Now fishing...")
-            time.sleep(4)
+            time.sleep(2)
             print("...")
             time.sleep(1)
             if fishing_inventory['bait'] < 2:
@@ -37,7 +36,8 @@ for k, v in fishing_inventory.items():
                 fishing_action()
             elif fishing_inventory['bait'] > 2:
                 print("Bait is on rod!")
-        if random.randrange(0, 100) < 40:
+        if random.randrange(0, 100) > 40:
+            time.sleep(1)
             print("It's tugging!")
             time.sleep(2)
             print("...")
@@ -47,51 +47,54 @@ for k, v in fishing_inventory.items():
             fishing_inventory['fish caught'] = fishing_inventory['fish caught'] + [caught_fish]
             fishing_inventory['fish amount'] = fishing_inventory['fish amount'] + 1
             fishing_inventory['bait'] = fishing_inventory['bait'] - 1
-        elif random.randrange(0, 100) > 40:
+        elif random.randrange(0, 100) < 40:
+            time.sleep(1)
             print("It's tugging!")
             time.sleep(2)
             print("...")
             time.sleep(1)
             print("The %s got away!" % random.choice(fish_type))
             fishing_inventory['bait'] = fishing_inventory['bait'] - 1
-        # rod evolution
-        if fishing_inventory['fish caught'] < 2:
+       # rod evolution
+        if fishing_inventory['fish caught'] >= ['2']:
             print("Congratulations! Your rod has leveled up to: the Stick Rod!")
             fishing_inventory['current rod'] = 'Nimble Stick Rod'
             print("%s" % fishing_inventory['current rod'])
-        if fishing_inventory['fish caught'] < 5:
+        if fishing_inventory['fish caught'] >= ['5']:
             print("Congratulations! Your rod has leveled up to: the Pole Rod!")
             fishing_inventory['current rod'] = 'Nimble Pole Rod'
             print("%s" % fishing_inventory['current rod'])
-        if fishing_inventory['fish caught'] > 10:
+        if fishing_inventory['fish caught'] >= ['10']:
             print("Congratulations! Your rod has leveled up to: the Strong Pole Rod!")
             fishing_inventory['current rod'] = 'Strengthened Pole Rod'
             print("%s" % fishing_inventory['current rod'])
-        if fishing_inventory['fish caught'] > 15:
+        if fishing_inventory['fish caught'] >= ['15']:
             print("Congratulations! Your rod has leveled up to: the Metal Rod!")
             fishing_inventory['current rod'] = 'Weak Metal Rod'
             print("%s" % fishing_inventory['current rod'])
-        if fishing_inventory['fish caught'] > 20:
+        if fishing_inventory['fish caught'] >= ['20']:
             print("Congratulations! Your rod has leveled up to: the Strong Metal Rod!")
             fishing_inventory['current rod'] = 'Strengthened Metal Rod'
             print("%s" % fishing_inventory['current rod'])
-        elif fishing_inventory['fish caught'] > 30:
+        elif fishing_inventory['fish caught'] >= ['30']:
             print("Congratulations! Your rod has leveled up to: the Shimano Curado Diamond Rod!")
             fishing_inventory['current rod'] = 'Shimano Curado Diamond Rod'
             print("%s" % fishing_inventory['current rod'])
         else:
-            print("")
+           print("")
 
         if fishing == 'v':
-            for k, v in fishing_inventory.items():
-                print("%s,%s" % (k, v))
+            for key,value in fishing_inventory.items():
+                print("%s,%s" % (key, value))
                 fishing_action()
         elif fishing == 'e':
             print("Redirecting now...")
             time.sleep(3)
             cont()
         else:
-            print("Please enter a valid input.")
+            time.sleep(1)
+            fishing_action()
+
         return ("Here are your new stats: %s" % fishing_inventory)
 
 
