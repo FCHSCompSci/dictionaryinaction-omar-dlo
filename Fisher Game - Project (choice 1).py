@@ -1,4 +1,5 @@
-# fisher game
+# omar de la osa, fisher game
+# 9/24/18
 
 import random
 import time
@@ -10,12 +11,13 @@ name = name.title()
 name = name.strip()
 time.sleep(1)
 print("Here are your stats: ")
+time.sleep(1)
 fishing_inventory = {
     'current rod': "Bamboo",
     'fish caught': [],
     'fish amount': 0,
     'fisherman': name,
-    'bait': 0,
+    'bait': 5,
 }
 
 for k, v in fishing_inventory.items():
@@ -23,8 +25,11 @@ for k, v in fishing_inventory.items():
     time.sleep(1)
 
 
-# bait hunt functions
+# bait hunt function
 def bait_hunt():
+    time.sleep(1)
+    print("*Pokemon Red Theme plays*")
+    time.sleep(0.5)
     print("Welcome to the woods! It's bait searching time!")
     time.sleep(2)
     print("Searching...")
@@ -32,90 +37,76 @@ def bait_hunt():
     print("Look! %s!" % random.choice(bait_location))
     time.sleep(1)
     print("You've found some %s!" % random.choice(bait_type))
-    return fishing_inventory['bait'] + 5
-
-
+    time.sleep(2)
+    print("Bait is restored!")
+    time.sleep(1)
+    print("Returning to fishing spot...")
+    time.sleep(1)
+    fishing_inventory['bait'] += 5
+    return fishing_action()
 
 # fishies and baities
-fish_type = ["Bass", "Trout", "Carp", "Catfish", "Perch", "Cod", "n Angelfish", "Bluegill"]
+fish_type = ["Bass", "Trout", "Carp", "Catfish", "Perch", "Cod", "Angelfish", "Bluegill","Sunfish","Rainbow Trout","Walleye"]
 bait_type = ["Worms", "Nightcrawlers", "Beetles", "Minnows", "Bread", "Maggots"]
 bait_location = ["Under the log", "On the ground", "Next to the tree", "Under that rock", "Next to the mushroom",
                  "In the dirt", "In the puddle"]
 
 def fishing_action():
-    if fishing_inventory['bait'] > 2:
+    if fishing_inventory['bait'] == 2:
         print("You're almost out of bait! Time to go bait hunting!")
         time.sleep(1)
-        bait_hunt()
+        return bait_hunt()
+    else:
+        print("")
 
     fishing = input("Would you like to [f]ish,[v]iew stats, or [e]xit?")
-    fishing = fishing.strip()
     fishing = fishing.title()
+    fishing = fishing.strip()
 
     if fishing == 'F':
         print("Now fishing...")
         time.sleep(2)
         print("...")
         time.sleep(1)
-        if random.randrange(0, 100) < 40:
+
+        if random.randrange(0,100) < 40:
             time.sleep(1)
             print("It's tugging!")
             time.sleep(2)
             print("...")
             time.sleep(1)
             caught_fish = random.choice(fish_type)
-            print("You've caught a %s!" % caught_fish)
             fishing_inventory['fish caught'] = fishing_inventory['fish caught'] + [caught_fish]
             fishing_inventory['fish amount'] = fishing_inventory['fish amount'] + 1
             fishing_inventory['bait'] = fishing_inventory['bait'] - 1
-        elif random.randrange(0, 100) > 40:
+            print("You've caught a %s!" % caught_fish)
+        elif random.randrange(0,100) > 40:
             time.sleep(1)
             print("It's tugging!")
             time.sleep(2)
             print("...")
             time.sleep(1)
-            print("The %s got away!" % random.choice(fish_type))
             fishing_inventory['bait'] = fishing_inventory['bait'] - 1
-            # rod evolution
-            if fishing_inventory['fish amount'] > 2:
-                print("Congratulations! Your rod has leveled up to: the Stick Rod!")
-                fishing_inventory['current rod'] = 'Nimble Stick Rod'
-                print("%s" % fishing_inventory['current rod'])
-            if fishing_inventory['fish amount'] > 5:
-                print("Congratulations! Your rod has leveled up to: the Pole Rod!")
-                fishing_inventory['current rod'] = 'Nimble Pole Rod'
-                print("%s" % fishing_inventory['current rod'])
-            if fishing_inventory['fish amount'] > 10:
-                print("Congratulations! Your rod has leveled up to: the Strong Pole Rod!")
-                fishing_inventory['current rod'] = 'Strengthened Pole Rod'
-                print("%s" % fishing_inventory['current rod'])
-            if fishing_inventory['fish amount'] > 15:
-                print("Congratulations! Your rod has leveled up to: the Metal Rod!")
-                fishing_inventory['current rod'] = 'Weak Metal Rod'
-                print("%s" % fishing_inventory['current rod'])
-            if fishing_inventory['fish amount'] > 20:
-                print("Congratulations! Your rod has leveled up to: the Strong Metal Rod!")
-                fishing_inventory['current rod'] = 'Strengthened Metal Rod'
-                print("%s" % fishing_inventory['current rod'])
-            elif fishing_inventory['fish amount'] > 30:
-                print("Congratulations! Your rod has leveled up to: the Shimano Curado Diamond Rod!")
-                fishing_inventory['current rod'] = 'Shimano Curado Diamond Rod'
-                print("%s" % fishing_inventory['current rod'])
-            else:
-                print("")
-
-        if fishing == 'V':
-            for key, value in fishing_inventory.items():
-                print("%s,%s" % (key, value))
-                fishing_action()
-        elif fishing == 'E':
-            print("Redirecting now...")
-            time.sleep(3)
-            cont()
+            print("The %s got away!" % random.choice(fish_type))
         else:
+            time.sleep(2)
+            fishing_inventory['bait'] = fishing_inventory['bait'] - 1
+            print("Not even a bite!")
+
+            print("")
+    if fishing == 'V':
+        print("Here are your stats: ")
+        for k, v in fishing_inventory.items():
+            print("%s,%s" % (k, v))
             time.sleep(1)
-            fishing_action()
-            return end_stats()
+        return fishing_action()
+    elif fishing == 'E':
+        print("Redirecting now...")
+        time.sleep(3)
+        return cont()
+    else:
+        time.sleep(1)
+        return fishing_action()
 
 
 play = input("Would you like to [p]lay or [e]xit?")
@@ -125,17 +116,19 @@ play = play.title()
 
 # end functions
 def cont():
-    cont = input("Are you sure? Would you like to [c]ontinue, or [e]xit? You are allowed to [r]estart.")
-    if cont == 'c':
-        fishing_action()
+    cont = input("Are you sure? Would you like to [c]ontinue, or [e]xit?")
+    cont = cont.lower()
+    cont = cont.strip()
     if cont == 'e':
         print("Exiting Program...")
         time.sleep(1)
-    elif cont == 'r':
-        restart()
+        print("Thank you for playing! Here are your final stats: %s" % fishing_inventory)
+        print("Program Closing...")
+        return breakpoint()
+    elif cont == 'c':
+        return fishing_action()
     else:
-        print("Please enter a valid input.")
-    return "Thank you for playing! Here are your final stats: %s" % fishing_inventory
+        print("")
 
 
 def end_stats():
@@ -145,20 +138,13 @@ def end_stats():
     for key, value in fishing_inventory.items():
         print("%s,%s" % (key, value))
         time.sleep(1)
-    return
+    return ""
 
 
-def restart():
-    print("Here are your starting stats: ")
-    for k, v in fishing_inventory.items():
-        print("%s,%s" % (k, v))
-        time.sleep(1)
-    return fishing_action()
 
 
 while play == 'P':
     fishing_action()
-    restart()
     bait_hunt()
     cont()
     end_stats()
